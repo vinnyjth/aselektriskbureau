@@ -54,6 +54,9 @@ class TelephoneDaemon:
         if not state:
             self.offHook = False
 
+    def OnOffHookTimeout(self):
+        print "[OFFHOOK TIMEOUT]"
+        
     def GotDigit(self, digit):
         print "[DIGIT] Got digit: %s" % digit
         # self.Ringtone.stophandset()
