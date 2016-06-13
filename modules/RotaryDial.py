@@ -9,7 +9,7 @@ from threading import Timer
 import time
 
 class RotaryDial:
-    
+
     # We'll be reading BCM GPIO 4 (pin 7 on board)
     pin_rotary = 4
 
@@ -17,7 +17,7 @@ class RotaryDial:
     pin_onhook = 3
 
     # After 900ms, we assume the rotation is done and we get
-    # the final digit. 
+    # the final digit.
     digit_timeout = 0.9
 
     # We keep a counter to count each pulse.
@@ -37,13 +37,13 @@ class RotaryDial:
         GPIO.setmode(GPIO.BCM)
 
         # Listen for rotary movements
-        GPIO.setup(self.pin_rotary, GPIO.IN)
+        GPIO.setup(self.pin_rotary, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.pin_rotary, GPIO.BOTH, callback = self.NumberCounter)
-        
+
         # Listen for on/off hooks
-        GPIO.setup(self.pin_onhook, GPIO.IN)
+        GPIO.setup(self.pin_onhook, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(self.pin_onhook, GPIO.BOTH, callback = self.HookEvent, bouncetime=100)
-        
+
         self.onhook_timer = Timer(2, self.verifyHook)
         self.onhook_timer.start()
 
@@ -62,7 +62,7 @@ class RotaryDial:
         self.last_input = input
    #     time.sleep(0.002)
 
-    # Wrapper around the off/on hook event 
+    # Wrapper around the off/on hook event
     def HookEvent(self, channel):
         input = GPIO.input(self.pin_onhook)
         if input:
@@ -77,7 +77,7 @@ class RotaryDial:
 
     def verifyHook(self):
         while self.should_verify_hook:
-            state = GPIO.input(self.pin_onhook) 
+            state = GPIO.input(self.pin_onhook)
             self.OnVerifyHook(state)
             time.sleep(1)
 
