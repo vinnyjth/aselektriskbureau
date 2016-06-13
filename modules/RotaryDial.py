@@ -14,7 +14,7 @@ class RotaryDial:
     pin_rotary = 4
 
     # We'll be reading on/off hook events from BCM GPIO 3
-    pin_onhook = 3
+    pin_onhook = 17
 
     # After 900ms, we assume the rotation is done and we get
     # the final digit.
@@ -49,8 +49,8 @@ class RotaryDial:
 
     # Handle counting of rotary movements and respond with digit after timeout
     def NumberCounter(self, channel):
-        input = not GPIO.input(self.pin_rotary)
-        #print "[INPUT] %s (%s)" % (input, channel)
+        input = GPIO.input(self.pin_rotary)
+        print "[INPUT] %s (%s)" % (input, channel)
         if input and not self.last_input:
             self.current_digit += 1
 
