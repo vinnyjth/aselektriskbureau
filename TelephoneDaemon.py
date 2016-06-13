@@ -39,9 +39,9 @@ class TelephoneDaemon:
         print "[PHONE] Off hook"
         fname = "sound/%s.wav" % self.dial_number
         if os.path.isfile(fname):
-            Sound(fname).play()
+            Timer(5, Sound(fname).play()).start()
         else:
-            Sound("sound/default.wav").play()
+            Timer(5, Sound("sound/default.wav").play()).start()
         self.offHook = False
         self.offHook = True
         # Reset current number when off hook
