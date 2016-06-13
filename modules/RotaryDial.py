@@ -49,7 +49,7 @@ class RotaryDial:
 
     # Handle counting of rotary movements and respond with digit after timeout
     def NumberCounter(self, channel):
-        !input = GPIO.input(self.pin_rotary)
+        input = not GPIO.input(self.pin_rotary)
         #print "[INPUT] %s (%s)" % (input, channel)
         if input and not self.last_input:
             self.current_digit += 1
@@ -64,7 +64,7 @@ class RotaryDial:
 
     # Wrapper around the off/on hook event
     def HookEvent(self, channel):
-        input = !GPIO.input(self.pin_onhook)
+        input = GPIO.input(self.pin_onhook)
         if input:
             self.hook_state = 1
             self.OffHookCallback()
