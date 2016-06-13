@@ -19,6 +19,8 @@ class TelephoneDaemon:
 
     RotaryDial = None
 
+    pygame.mixer.init()
+
     # config = None
 
     def __init__(self):
@@ -27,7 +29,6 @@ class TelephoneDaemon:
         # Rotary dial
         self.RotaryDial = RotaryDial()
         self.RotaryDial.RegisterCallback(NumberCallback = self.GotDigit, OffHookCallback = self.OffHook, OnHookCallback = self.OnHook, OnVerifyHook = self.OnVerifyHook)
-        pygame.mixer.init()
 
         raw_input("Waiting.\n")
 
@@ -35,7 +36,7 @@ class TelephoneDaemon:
         print "[PHONE] On hook"
         fname = "sound/%s.wav" % self.dial_number
         if os.path.isfile(fname):
-            Sound().play()
+            Sound().play(fname)
         else:
             Sound("sound/default.wav").play()
         self.offHook = False
@@ -56,7 +57,7 @@ class TelephoneDaemon:
 
     def OnOffHookTimeout(self):
         print "[OFFHOOK TIMEOUT]"
-        
+
     def GotDigit(self, digit):
         print "[DIGIT] Got digit: %s" % digit
         # self.Ringtone.stophandset()
