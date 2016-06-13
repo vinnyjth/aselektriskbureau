@@ -37,16 +37,10 @@ class TelephoneDaemon:
 
     def OffHook(self):
         print "[PHONE] Off hook"
-        fname = "sound/%s.wav" % self.dial_number
-        if os.path.isfile(fname):
-            Timer(5, Sound(fname).play()).start()
-        else:
-            Timer(5, Sound("sound/default.wav").play()).start()
         self.offHook = False
         self.offHook = True
+        Timer(5, self.playSound).start()
         # Reset current number when off hook
-        self.dial_number = ""
-
 
         self.offHookTimeoutTimer = Timer(5, self.OnOffHookTimeout)
         self.offHookTimeoutTimer.start()
@@ -58,6 +52,14 @@ class TelephoneDaemon:
     def OnOffHookTimeout(self):
         print "[OFFHOOK TIMEOUT]"
 
+    def playSound(name):
+        fname = "sound/%s.wav" % self.dial_number
+        if os.path.isfile(fname):
+            Sound(fname).play()
+        else:
+            Sound("sound/default.wav").play()
+        self.dial_number = ""
+        
     def GotDigit(self, digit):
         print "[DIGIT] Got digit: %s" % digit
         # self.Ringtone.stophandset()
