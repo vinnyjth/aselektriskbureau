@@ -36,7 +36,7 @@ class TelephoneDaemon:
         print "[PHONE] On hook"
         fname = "sound/%s.wav" % self.dial_number
         if os.path.isfile(fname):
-            Sound().play(fname)
+            Sound(fname).play()
         else:
             Sound("sound/default.wav").play()
         self.offHook = False
